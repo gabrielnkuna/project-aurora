@@ -28,7 +28,7 @@ steps:
       - 'deploy'
       - 'aurora-campaign'          # Cloud Run service name
       - '--image=gcr.io/$PROJECT_ID/aurora-campaign:$COMMIT_SHA'
-      - '--region=us-central1'     # Change to your preferred region
+      - '--region=africa-south1'    # Johannesburg, South Africa
       - '--platform=managed'
       - '--allow-unauthenticated'  # Public campaign page — no auth required
       - '--port=8080'
