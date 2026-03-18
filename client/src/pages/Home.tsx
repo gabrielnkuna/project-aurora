@@ -1231,6 +1231,137 @@ function FAQSection() {
   );
 }
 
+function GitHubSection() {
+  return (
+    <section className="py-24 bg-[#0A1628]/50">
+      <div className="container">
+        <div className="aurora-section-divider mb-16" />
+
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+              For Backers and Reviewers
+            </div>
+            <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
+              The Repo Is the Proof
+            </h2>
+            <p className="text-[#F0F4FF]/60 max-w-2xl mx-auto leading-relaxed">
+              Aurora's current software-first control platform is fully public. The repository
+              is not a pitch deck — it is a working engineering platform you can read, run,
+              and scrutinize.
+            </p>
+          </div>
+
+          {/* What the public repo contains */}
+          <div className="grid md:grid-cols-2 gap-8 mb-10">
+            <div className="aurora-card rounded-sm p-6 border-[#00D4FF]/30">
+              <div className="flex items-center gap-2 mb-5">
+                <Github size={16} className="text-[#00D4FF]" />
+                <div className="mono text-[#00D4FF] text-xs tracking-wide uppercase">Public Repository</div>
+              </div>
+              <div className="space-y-2">
+                {[
+                  "src/aurora_vtol/ — full control-stack source",
+                  "tests/ — validation test suite",
+                  "docs/architecture.md",
+                  "docs/icd.md — interface control document",
+                  "docs/topology.md — ring architecture model",
+                  "docs/command_reference.md",
+                  "Sample traces and replay data",
+                  "Mission Planner screenshots",
+                  "Campaign-safe architecture diagrams",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2 text-xs text-[#F0F4FF]/70">
+                    <CheckCircle size={11} className="text-[#00D4FF] shrink-0 mt-0.5" />
+                    <span className="mono">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="aurora-card rounded-sm p-6 border-[#F0F4FF]/10">
+              <div className="flex items-center gap-2 mb-5">
+                <AlertTriangle size={16} className="text-amber-400" />
+                <div className="mono text-amber-400/80 text-xs tracking-wide uppercase">Kept Private (when it exists)</div>
+              </div>
+              <p className="text-xs text-[#F0F4FF]/50 leading-relaxed mb-4">
+                As the project moves into physical prototyping, the following will remain
+                non-public:
+              </p>
+              <div className="space-y-2">
+                {[
+                  "Supplier quotes and negotiations",
+                  "Exact BOM costs and procurement data",
+                  "Final CAD / STEP / production drawings",
+                  "Manufacturing conversations",
+                  "Detailed hardware packaging files",
+                  "Investor-only planning documents",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2 text-xs text-[#F0F4FF]/40">
+                    <span className="text-amber-400/50 shrink-0 mt-0.5">—</span>
+                    <span className="mono">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Transparency statement */}
+          <div className="aurora-card rounded-sm p-6 border-[#00D4FF]/20 mb-8">
+            <div className="mono text-[#00D4FF] text-xs tracking-wide mb-3 uppercase">Repository Scope Statement</div>
+            <p className="text-sm text-[#F0F4FF]/70 leading-relaxed mb-3">
+              This repository contains the current public Aurora software-first research platform,
+              including control-stack workflows, validation tools, and integration examples. It does
+              not imply that all future implementation details will be public. As the project moves
+              into physical prototyping, supplier-sensitive, manufacturing-sensitive, and
+              commercialization-specific materials may be kept private.
+            </p>
+            <p className="text-sm text-[#F0F4FF]/50 leading-relaxed italic">
+              Aurora's current software-first prototype is public. Future private implementation
+              details will remain private.
+            </p>
+          </div>
+
+          {/* README callouts */}
+          <div className="grid sm:grid-cols-3 gap-4 mb-10">
+            {[
+              {
+                label: "Research & Validation Platform",
+                desc: "This is a research and validation platform — not production flight code and not certified avionics.",
+              },
+              {
+                label: "Autonomous Prototype Stage",
+                desc: "Physical implementation details are still in progress. No manned testing is part of this campaign.",
+              },
+              {
+                label: "Open to Scrutiny",
+                desc: "The public repo is open specifically to invite technical scrutiny and demonstrate real progress.",
+              },
+            ].map((item) => (
+              <div key={item.label} className="aurora-card rounded-sm p-4">
+                <div className="mono text-[#00D4FF] text-xs tracking-wide mb-2">{item.label}</div>
+                <p className="text-xs text-[#F0F4FF]/55 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <a
+              href="https://github.com/gabrielnkuna/aurora-vtol"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-[#00D4FF]/40 text-[#F0F4FF]/80 hover:border-[#00D4FF] hover:text-[#00D4FF] transition-all rounded-sm text-sm tracking-wide uppercase"
+            >
+              <Github size={16} />
+              View the Public Repository
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ClosingCTA() {
   return (
     <section className="py-32 relative overflow-hidden">
@@ -1354,6 +1485,7 @@ export default function Home() {
       <PerksSection />
       <RisksSection />
       <FAQSection />
+      <GitHubSection />
       <ClosingCTA />
       <Footer />
     </div>
