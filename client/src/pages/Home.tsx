@@ -1,16 +1,13 @@
 /* ============================================================
    AURORA VTOL — INDIEGOGO CAMPAIGN PAGE
    Design: Deep Space Mission Control
-   v3 — Indiegogo Flexible Funding:
-   - Platform: Indiegogo (Flexible Funding)
-   - "Rewards" → "Perks"
-   - "Back This Project" → "Contribute Now"
-   - "Backers" kept (same on Indiegogo)
-   - Added Flexible Funding explanation banner in perks section
-   - Added Flexible Funding note under progress bar
-   - Updated funding model language throughout
-   - CTA buttons updated to Indiegogo framing
-   - Nav "Rewards" → "Perks", section id="perks"
+   v5 — Repo AI credibility fixes:
+   - Hero headline updated to outcome-first framing
+   - Subheadline tightened to concrete deliverables
+   - Opening summary replaced with repo AI recommended copy
+   - Two-occupant FAQ line downplayed (prototype-only framing)
+   - Video placeholder kept (in progress)
+   - package.json name updated to aurora-vtol-campaign
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
@@ -193,7 +190,7 @@ const ROADMAP_PHASES = [
 const FAQ_ITEMS = [
   {
     q: "Is Aurora a manned aircraft project?",
-    a: "Not for this campaign. Aurora is being designed with a future two-occupant architecture in mind, but this campaign funds autonomous prototype development only. No manned flight testing is part of this campaign scope.",
+    a: "No. Aurora is an autonomous prototype research program. This campaign funds autonomous prototype development only — mechanical definition, subsystem architecture, test rigs, and demonstrator integration. No manned flight testing is part of this campaign scope or timeline.",
   },
   {
     q: "Do you already have a working aircraft prototype?",
@@ -334,24 +331,23 @@ function HeroSection() {
           className="display-font text-5xl sm:text-7xl lg:text-8xl font-bold text-white leading-none tracking-tight mb-6 animate-fade-in-up"
           style={{ animationDelay: "0.1s", textShadow: "0 0 60px rgba(0,212,255,0.2)" }}
         >
-          PROJECT
+          Aurora VTOL
           <br />
-          <span className="text-[#00D4FF] aurora-glow-text">AURORA</span>
+          <span className="text-[#00D4FF] aurora-glow-text" style={{fontSize: '0.72em'}}>Funding the leap from software-proven control to an autonomous prototype</span>
         </h1>
 
         <p
           className="text-lg sm:text-xl text-[#F0F4FF]/80 max-w-2xl mx-auto leading-relaxed mb-4 animate-fade-in-up"
           style={{ animationDelay: "0.2s" }}
         >
-          Autonomous VTOL, Engineered from Software Up
+          Aurora already has a public control and validation stack. This campaign funds the next step: mechanical definition, subsystem architecture, test rigs, and autonomous prototype integration.
         </p>
 
         <p
           className="text-base text-[#F0F4FF]/60 max-w-xl mx-auto leading-relaxed mb-10 animate-fade-in-up"
           style={{ animationDelay: "0.3s" }}
         >
-          A software-first autonomous VTOL program that built and validated the control
-          stack before physical prototyping — now raising funds to build the physical path forward.
+          Aurora is a software-first VTOL research and prototyping program built around a 16-fan, 32-vane ring architecture. The control, maneuver, and validation stack is already built and public. This campaign funds the transition into a real autonomous prototype path.
         </p>
 
         <div
