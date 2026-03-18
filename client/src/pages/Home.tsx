@@ -1,24 +1,44 @@
 /* ============================================================
    AURORA VTOL KICKSTARTER — HOME PAGE
    Design: Deep Space Mission Control
-   Sections: Nav, Hero, Stats, Story, What We've Built,
-             What Funding Unlocks, Roadmap, Budget, Rewards,
-             Risks, FAQ, Closing CTA
+   Feedback applied (v2):
+   - Fixed inconsistent funding stats (placeholder values now coherent)
+   - Improved hero subheadline copy
+   - Added prototype proof video placeholder above the fold
+   - Added topology clarification line under "16 Fans. 32 Vanes."
+   - Added "What you see today" sentence in Working Prototype
+   - Expanded all FAQ answers (now visible by default on first item)
+   - Added per-phase output deliverables to roadmap
+   - Softened "no salaries" budget language
+   - Improved hero description copy
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
-import { Github, ChevronDown, CheckCircle, AlertTriangle, HelpCircle, ArrowRight } from "lucide-react";
+import {
+  Github,
+  ChevronDown,
+  CheckCircle,
+  AlertTriangle,
+  HelpCircle,
+  ArrowRight,
+  Play,
+} from "lucide-react";
 
 // ─── Constants ───────────────────────────────────────────────
-const HERO_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-hero-ring-dVRkb9zhZbURiSu2asYD5f.webp";
-const SOFTWARE_VIZ_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-software-viz-3De9ZGdyuZy4NvFGVbXvDE.webp";
-const RING_DIAGRAM_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-ring-diagram-2vDjFiZtJuka6Geos2An8o.webp";
-const LAB_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-prototype-lab-ngk72bVJ4sNAukSYV6Bwg8.webp";
+const HERO_IMAGE =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-hero-ring-dVRkb9zhZbURiSu2asYD5f.webp";
+const SOFTWARE_VIZ_IMAGE =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-software-viz-3De9ZGdyuZy4NvFGVbXvDE.webp";
+const RING_DIAGRAM_IMAGE =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-ring-diagram-2vDjFiZtJuka6Geos2An8o.webp";
+const LAB_IMAGE =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310419663030420333/WpzXq6yH633ZkdNRUJzomP/aurora-prototype-lab-ngk72bVJ4sNAukSYV6Bwg8.webp";
 
+// ── Campaign stats — update these when the campaign is live ──
 const FUNDING_GOAL = 85000;
-const AMOUNT_RAISED = 12340;
-const BACKERS = 187;
-const DAYS_LEFT = 28;
+const AMOUNT_RAISED = 0;
+const BACKERS = 0;
+const DAYS_LEFT = 30;
 
 const BUDGET_ITEMS = [
   { label: "Mechanical CAD & Packaging", pct: 25, color: "#00D4FF" },
@@ -26,57 +46,93 @@ const BUDGET_ITEMS = [
   { label: "Electronics, Control Hardware & Sensors", pct: 20, color: "#0080A0" },
   { label: "Test Rigs, Safety Hardware & Instrumentation", pct: 15, color: "#005F78" },
   { label: "BOM Iteration & Prototype Procurement", pct: 10, color: "#003F52" },
-  { label: "Documentation, Communication & Contingencies", pct: 10, color: "#002030" },
+  { label: "Documentation, Communication & Project Execution", pct: 10, color: "#002030" },
 ];
 
 const REWARD_TIERS = [
   {
     amount: 10,
     title: "Supporter",
-    description: "Help launch Project Aurora and receive campaign updates. Your name in the digital supporter list.",
-    perks: ["Campaign update emails", "Digital supporter badge", "Access to backer-only announcements"],
+    description:
+      "Help launch Project Aurora and receive campaign updates. Your name in the digital supporter list.",
+    perks: [
+      "Campaign update emails",
+      "Digital supporter badge",
+      "Access to backer-only announcements",
+    ],
     highlight: false,
   },
   {
     amount: 25,
     title: "Aurora Insider",
-    description: "Receive detailed development updates and backer-only technical progress posts as the project advances.",
-    perks: ["All Supporter perks", "Backer-only progress updates", "Milestone summaries"],
+    description:
+      "Receive detailed development updates and backer-only technical progress posts as the project advances.",
+    perks: [
+      "All Supporter perks",
+      "Backer-only progress updates",
+      "Milestone summaries",
+    ],
     highlight: false,
   },
   {
     amount: 50,
     title: "Engineering Backer",
-    description: "Get behind-the-scenes access to CAD progress, subsystem decisions, and test milestones.",
-    perks: ["All Aurora Insider perks", "Backer-only technical notes", "Selected CAD & test snapshots"],
+    description:
+      "Get behind-the-scenes access to CAD progress, subsystem decisions, and test milestones.",
+    perks: [
+      "All Aurora Insider perks",
+      "Backer-only technical notes",
+      "Selected CAD & test snapshots",
+    ],
     highlight: false,
   },
   {
     amount: 100,
     title: "Prototype Insider",
-    description: "Early access to deeper engineering updates, subsystem decisions, and development logs as they happen.",
-    perks: ["All Engineering Backer perks", "Early access to engineering updates", "Subsystem decision logs"],
+    description:
+      "Early access to deeper engineering updates, subsystem decisions, and development logs as they happen.",
+    perks: [
+      "All Engineering Backer perks",
+      "Early access to engineering updates",
+      "Subsystem decision logs",
+    ],
     highlight: true,
   },
   {
     amount: 250,
     title: "Aurora Wall",
-    description: "Your name listed on the project supporter wall in all project materials and documentation.",
-    perks: ["All Prototype Insider perks", "Name on the Aurora Supporter Wall", "Listed in project documentation"],
+    description:
+      "Your name listed on the project supporter wall in all project materials and documentation.",
+    perks: [
+      "All Prototype Insider perks",
+      "Name on the Aurora Supporter Wall",
+      "Listed in project documentation",
+    ],
     highlight: false,
   },
   {
     amount: 500,
     title: "Founding Backer",
-    description: "Named recognition in the prototype documentation pack and milestone update series.",
-    perks: ["All Aurora Wall perks", "Named in prototype documentation", "Recognition in milestone updates"],
+    description:
+      "Named recognition in the prototype documentation pack and milestone update series.",
+    perks: [
+      "All Aurora Wall perks",
+      "Named in prototype documentation",
+      "Recognition in milestone updates",
+    ],
     highlight: false,
   },
   {
     amount: 1000,
     title: "Sponsor Tier",
-    description: "Recognition as a founding sponsor in milestone updates, project acknowledgments, and all major project materials.",
-    perks: ["All Founding Backer perks", "Founding sponsor recognition", "Named in all major project materials", "Direct project acknowledgment"],
+    description:
+      "Recognition as a founding sponsor in milestone updates, project acknowledgments, and all major project materials.",
+    perks: [
+      "All Founding Backer perks",
+      "Founding sponsor recognition",
+      "Named in all major project materials",
+      "Direct project acknowledgment",
+    ],
     highlight: false,
   },
 ];
@@ -85,25 +141,51 @@ const ROADMAP_PHASES = [
   {
     phase: "Phase 1",
     title: "Mechanical Definition",
-    items: ["Airframe, ring, and internal packaging concept", "Actuator and propulsion placement", "Access and maintainability layout", "Structural concept refinement"],
+    items: [
+      "Airframe, ring, and internal packaging concept",
+      "Actuator and propulsion placement",
+      "Access and maintainability layout",
+      "Structural concept refinement",
+    ],
+    output: "Deliverable: packaging CAD and subsystem layout pack",
     status: "funded",
   },
   {
     phase: "Phase 2",
     title: "Prototype System Definition",
-    items: ["Propulsion candidate selection", "Actuator subsystem definition", "Electronics and power architecture", "Compute and sensor integration", "BOM and supplier package creation"],
+    items: [
+      "Propulsion candidate selection",
+      "Actuator subsystem definition",
+      "Electronics and power architecture",
+      "Compute and sensor integration",
+      "BOM and supplier package creation",
+    ],
+    output: "Deliverable: BOM and prototype architecture document",
     status: "funded",
   },
   {
     phase: "Phase 3",
     title: "Rigging & Subsystem Validation",
-    items: ["Test rigs and bench validation setups", "Hardware-connected ArduPilot workflows", "Mission Planner validation loops", "Instrumentation and safety setup"],
+    items: [
+      "Test rigs and bench validation setups",
+      "Hardware-connected ArduPilot workflows",
+      "Mission Planner validation loops",
+      "Instrumentation and safety setup",
+    ],
+    output: "Deliverable: tested rig videos and validation report",
     status: "stretch",
   },
   {
     phase: "Phase 4",
     title: "Autonomous Demonstrator",
-    items: ["Integrated prototype assembly", "Controlled ground validation", "Constrained autonomous test program", "Iteration based on measured results", "Transparent engineering updates"],
+    items: [
+      "Integrated prototype assembly",
+      "Controlled ground validation",
+      "Constrained autonomous test program",
+      "Iteration based on measured results",
+      "Transparent engineering updates",
+    ],
+    output: "Deliverable: autonomous demonstrator footage and engineering report",
     status: "stretch",
   },
 ];
@@ -111,27 +193,27 @@ const ROADMAP_PHASES = [
 const FAQ_ITEMS = [
   {
     q: "Is Aurora a manned aircraft project?",
-    a: "Not for this campaign. Aurora is being designed with a future two-occupant architecture in mind, but this campaign funds autonomous prototype development only. No manned flight testing is part of this campaign.",
+    a: "Not for this campaign. Aurora is being designed with a future two-occupant architecture in mind, but this campaign funds autonomous prototype development only. No manned flight testing is part of this campaign scope.",
   },
   {
     q: "Do you already have a working aircraft prototype?",
-    a: "The current foundation is the software and control-stack prototype: maneuver logic, allocator studies, replay and validation workflows, and integration with ArduPilot and Mission Planner. This campaign funds the physical engineering step.",
+    a: "The current working prototype is the software-first VTOL control and validation stack — maneuver logic, allocator studies, replay and validation workflows, and integration with ArduPilot and Mission Planner. What you see today is the live prototype: software-generated maneuvers replayed and inspected through ArduPilot and Mission Planner workflows. This campaign funds the physical engineering step that follows.",
   },
   {
     q: "Why not build hardware first?",
-    a: "Because hardware is expensive, slow to change, and risky if the control and integration assumptions are not mature. Aurora uses software first to reduce that risk before committing to expensive fabrication.",
+    a: "Because hardware is expensive, slow to change, and unforgiving of assumptions that were never tested. Aurora uses software first to reduce that risk before committing to expensive fabrication. The control-stack foundation already exists — this campaign funds the transition from that foundation to a physical autonomous prototype.",
   },
   {
     q: "What makes Aurora different from a normal VTOL?",
-    a: "Aurora explores a ring-based architecture with distributed control and unusual maneuver goals such as decoupled motion, lateral movement, redirect behavior, braking, and repel-style obstacle response.",
+    a: "Aurora explores a ring-based architecture with distributed control and an unusual set of maneuver goals: decoupled motion, lateral movement, redirect behavior, braking, and repel-style obstacle response. These are studied through the software platform before hardware is built, which is the opposite of how most VTOL programs approach the problem.",
   },
   {
     q: "Will this campaign produce a passenger aircraft?",
-    a: "No. The funded outcome is an autonomous prototype path, not a passenger-ready aircraft. Those are future stages that depend on the success of this foundational work.",
+    a: "No. The funded outcome is an autonomous prototype path, not a passenger-ready aircraft. Those are future stages that depend on the success of this foundational engineering work. The campaign is explicit about this scope throughout.",
   },
   {
     q: "What will backers actually see if the campaign succeeds?",
-    a: "Visible deliverables include CAD progress updates, subsystem definition documents, BOM milestones, bench and rig testing reports, and autonomous prototype integration updates — all shared transparently with backers.",
+    a: "Visible deliverables include CAD progress updates, subsystem definition documents, BOM milestones, bench and rig testing reports, and autonomous prototype integration updates — all shared transparently with backers at each phase milestone. Phase 1 delivers a packaging CAD and subsystem layout pack. Phase 2 delivers a BOM and prototype architecture document. Stretch phases deliver rig validation reports and autonomous demonstrator footage.",
   },
 ];
 
@@ -142,7 +224,9 @@ function useIntersectionObserver(threshold = 0.1) {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
       { threshold }
     );
     if (ref.current) observer.observe(ref.current);
@@ -156,6 +240,7 @@ function useCountUp(target: number, isVisible: boolean, duration = 2000) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!isVisible) return;
+    if (target === 0) { setCount(0); return; }
     const start = Date.now();
     const timer = setInterval(() => {
       const elapsed = Date.now() - start;
@@ -182,7 +267,9 @@ function Nav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-[#050D1A]/95 backdrop-blur-md border-b border-[#00D4FF]/20 py-3" : "bg-transparent py-5"
+        scrolled
+          ? "bg-[#050D1A]/95 backdrop-blur-md border-b border-[#00D4FF]/20 py-3"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container flex items-center justify-between">
@@ -259,8 +346,8 @@ function HeroSection() {
           className="text-base text-[#F0F4FF]/60 max-w-xl mx-auto leading-relaxed mb-10 animate-fade-in-up"
           style={{ animationDelay: "0.3s" }}
         >
-          A ring-based VTOL research program that built the control stack first —
-          now raising funds to turn that software foundation into a real autonomous prototype.
+          A software-first autonomous VTOL program that built and validated the control
+          stack before physical prototyping — now raising funds to build the physical path forward.
         </p>
 
         <div
@@ -291,27 +378,96 @@ function HeroSection() {
   );
 }
 
+/** Prominent video placeholder — replace src/poster with real demo when ready */
+function PrototypeVideoSection() {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <section className="py-16 bg-[#050D1A]">
+      <div className="container">
+        <div className="max-w-4xl mx-auto">
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-3 uppercase text-center">
+            Prototype Demo
+          </div>
+          <h2 className="display-font text-3xl sm:text-4xl font-bold text-white text-center mb-2">
+            See the Control Stack in Action
+          </h2>
+          <p className="text-[#F0F4FF]/50 text-sm text-center mb-8">
+            Aurora CLI → trace generated → Mission Planner path replay → metrics
+          </p>
+
+          {/* Video placeholder — swap the div below for a real <video> or YouTube embed */}
+          <div
+            className="relative w-full rounded-sm aurora-border overflow-hidden cursor-pointer group"
+            style={{ aspectRatio: "16/9" }}
+            onClick={() => setPlaying(true)}
+          >
+            <img
+              src={SOFTWARE_VIZ_IMAGE}
+              alt="Aurora software workflow preview"
+              className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+            />
+            <div className="absolute inset-0 bg-[#050D1A]/50 flex flex-col items-center justify-center gap-4">
+              {!playing ? (
+                <>
+                  <div className="w-20 h-20 rounded-full border-2 border-[#00D4FF] flex items-center justify-center aurora-glow group-hover:scale-110 transition-transform">
+                    <Play size={32} className="text-[#00D4FF] ml-1" />
+                  </div>
+                  <div className="aurora-card rounded-sm px-4 py-2 text-center">
+                    <div className="mono text-[#00D4FF] text-xs tracking-wide">VIDEO COMING SOON</div>
+                    <div className="text-[#F0F4FF]/50 text-xs mt-1">
+                      Demo of the live software workflow will be added here before launch
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-[#F0F4FF]/60 text-sm mono">
+                  [Video will play here once uploaded]
+                </div>
+              )}
+            </div>
+          </div>
+
+          <p className="text-xs text-[#F0F4FF]/30 mono text-center mt-3">
+            The real software prototype — not concept art. Control stack, maneuver generation, and Mission Planner replay.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CampaignStats() {
   const { ref, isVisible } = useIntersectionObserver(0.3);
   const raised = useCountUp(AMOUNT_RAISED, isVisible);
   const backers = useCountUp(BACKERS, isVisible);
-  const days = useCountUp(DAYS_LEFT, isVisible);
-  const pct = Math.round((AMOUNT_RAISED / FUNDING_GOAL) * 100);
+  const pct = FUNDING_GOAL > 0 ? Math.round((AMOUNT_RAISED / FUNDING_GOAL) * 100) : 0;
 
   return (
     <section ref={ref} className="py-12 border-y border-[#00D4FF]/15 bg-[#0A1628]/80 backdrop-blur-sm">
       <div className="container">
         <div className="grid grid-cols-3 gap-8 mb-8">
           {[
-            { value: `$${raised.toLocaleString()}`, label: "Raised of $85,000 goal" },
-            { value: backers.toLocaleString(), label: "Backers" },
-            { value: days.toString(), label: "Days to go" },
+            {
+              value: AMOUNT_RAISED > 0 ? `$${raised.toLocaleString()}` : "$0",
+              label: "Raised of $85,000 goal",
+            },
+            {
+              value: BACKERS > 0 ? backers.toLocaleString() : "0",
+              label: "Backers",
+            },
+            {
+              value: DAYS_LEFT.toString(),
+              label: "Days to go",
+            },
           ].map((stat, i) => (
             <div key={i} className="text-center">
               <div className="display-font text-3xl sm:text-4xl font-bold text-[#00D4FF] aurora-glow-text mb-1">
                 {stat.value}
               </div>
-              <div className="text-xs text-[#F0F4FF]/50 mono tracking-wide uppercase">{stat.label}</div>
+              <div className="text-xs text-[#F0F4FF]/50 mono tracking-wide uppercase">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
@@ -320,10 +476,11 @@ function CampaignStats() {
         <div className="relative">
           <div className="h-2 bg-[#F0F4FF]/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-[#00D4FF] to-[#00A8CC] rounded-full transition-all duration-2000 ease-out aurora-glow"
+              className="h-full bg-gradient-to-r from-[#00D4FF] to-[#00A8CC] rounded-full aurora-glow"
               style={{
-                width: isVisible ? `${pct}%` : "0%",
+                width: isVisible ? `${Math.max(pct, 0.5)}%` : "0%",
                 transition: "width 2s ease-out",
+                minWidth: pct === 0 ? "0%" : undefined,
               }}
             />
           </div>
@@ -353,19 +510,31 @@ function StorySection() {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">The Problem</div>
+            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+              The Problem
+            </div>
             <h2 className="display-font text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
               Most VTOL programs start by committing to hardware too early.
             </h2>
             <div className="space-y-4 text-[#F0F4FF]/70 leading-relaxed">
               <p>
-                Ambitious aircraft concepts usually fail when mechanical, control, and integration risks are discovered too late — after expensive fabrication has already begun. The hardware becomes a trap: slow to change, costly to iterate, and unforgiving of assumptions that were never tested.
+                Ambitious aircraft concepts usually fail when mechanical, control, and integration
+                risks are discovered too late — after expensive fabrication has already begun. The
+                hardware becomes a trap: slow to change, costly to iterate, and unforgiving of
+                assumptions that were never tested.
               </p>
               <p>
-                Aurora starts differently. We began with the control stack: maneuver logic, allocation studies, trace-based validation, and integration with ArduPilot and Mission Planner. That lets us stress the concept before committing to major hardware cost.
+                Aurora starts differently. We began with the control stack: maneuver logic,
+                allocation studies, trace-based validation, and integration with ArduPilot and
+                Mission Planner. That lets us stress the concept before committing to major
+                hardware cost.
               </p>
               <p>
-                Aurora is also different in shape and motion philosophy. Rather than following a typical wing-plus-rotor layout, Aurora explores a <strong className="text-[#F0F4FF]">ring-based vehicle architecture</strong> with distributed control — a platform to study a different class of maneuvers and control behavior.
+                Aurora is also different in shape and motion philosophy. Rather than following a
+                typical wing-plus-rotor layout, Aurora explores a{" "}
+                <strong className="text-[#F0F4FF]">ring-based vehicle architecture</strong> with
+                distributed control — a platform to study a different class of maneuvers and
+                control behavior.
               </p>
             </div>
           </div>
@@ -377,9 +546,19 @@ function StorySection() {
               className="w-full rounded-sm aurora-border"
             />
             <div className="absolute -bottom-4 -right-4 aurora-card rounded-sm p-4 max-w-xs">
-              <div className="mono text-[#00D4FF] text-xs mb-2 tracking-wide">CONTROL STACK STATUS</div>
-              {["Maneuver generation", "Allocator studies", "ArduPilot integration", "Mission Planner replay"].map((item) => (
-                <div key={item} className="flex items-center gap-2 text-xs text-[#F0F4FF]/80 py-1">
+              <div className="mono text-[#00D4FF] text-xs mb-2 tracking-wide">
+                CONTROL STACK STATUS
+              </div>
+              {[
+                "Maneuver generation",
+                "Allocator studies",
+                "ArduPilot integration",
+                "Mission Planner replay",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-2 text-xs text-[#F0F4FF]/80 py-1"
+                >
                   <CheckCircle size={12} className="text-[#00D4FF] shrink-0" />
                   {item}
                 </div>
@@ -399,12 +578,17 @@ function PrototypeSection() {
         <div className="aurora-section-divider mb-16" />
 
         <div className="text-center mb-16">
-          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">What Exists Today</div>
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+            What Exists Today
+          </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
             The Working Prototype
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-2xl mx-auto">
-            Project Aurora's current working prototype is the software-first VTOL control and validation stack — a real engineering platform, not a concept sketch.
+            What you see today is the live prototype: software-generated maneuvers replayed and
+            inspected through ArduPilot and Mission Planner workflows. Project Aurora's current
+            working prototype is the software-first VTOL control and validation stack — a real
+            engineering platform, not a concept sketch.
           </p>
         </div>
 
@@ -418,21 +602,47 @@ function PrototypeSection() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <h3 className="display-font text-3xl font-bold text-white mb-6">
+            <h3 className="display-font text-3xl font-bold text-white mb-3">
               16 Fans. 32 Vanes. One Ring.
             </h3>
+            <p className="text-sm text-[#00D4FF]/80 mono mb-5">
+              This topology is currently modeled in software and used for allocation, fault, and
+              maneuver studies.
+            </p>
             <p className="text-[#F0F4FF]/70 leading-relaxed mb-6">
-              Aurora is built around a ring-based control architecture with 16 distributed fan units and 32 vane actuators. The software stack models this topology explicitly — allowing us to study how force and moment can be distributed across the ring under normal operation, actuator faults, and degraded conditions.
+              Aurora is built around a ring-based control architecture with 16 distributed fan
+              units and 32 vane actuators. The software stack models this topology explicitly —
+              allowing us to study how force and moment can be distributed across the ring under
+              normal operation, actuator faults, and degraded conditions.
             </p>
 
             <div className="space-y-3">
               {[
-                { label: "Fan units", value: "16", desc: "Distributed around the ring perimeter" },
-                { label: "Vane actuators", value: "32", desc: "Two per fan unit for directional control" },
-                { label: "Control layers", value: "6", desc: "From guidance to trace export" },
-                { label: "Maneuver modes", value: "8+", desc: "Including repel, snap-stop, redirect" },
+                {
+                  label: "Fan units",
+                  value: "16",
+                  desc: "Distributed around the ring perimeter",
+                },
+                {
+                  label: "Vane actuators",
+                  value: "32",
+                  desc: "Two per fan unit for directional control",
+                },
+                {
+                  label: "Control layers",
+                  value: "6",
+                  desc: "From guidance to trace export",
+                },
+                {
+                  label: "Maneuver modes",
+                  value: "8+",
+                  desc: "Including repel, snap-stop, redirect",
+                },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-4 aurora-card rounded-sm p-3">
+                <div
+                  key={item.label}
+                  className="flex items-center gap-4 aurora-card rounded-sm p-3"
+                >
                   <div className="display-font text-2xl font-bold text-[#00D4FF] w-12 text-center aurora-glow-text">
                     {item.value}
                   </div>
@@ -451,7 +661,9 @@ function PrototypeSection() {
           <div className="aurora-card rounded-sm p-6">
             <div className="flex items-center gap-2 mb-4">
               <CheckCircle size={18} className="text-[#00D4FF]" />
-              <h3 className="display-font text-xl font-bold text-white">What the prototype proves now</h3>
+              <h3 className="display-font text-xl font-bold text-white">
+                What the prototype proves now
+              </h3>
             </div>
             <div className="space-y-2">
               {[
@@ -462,7 +674,10 @@ function PrototypeSection() {
                 "Mission Planner visualization and testing",
                 "A credible path from simulation into hardware engineering",
               ].map((item) => (
-                <div key={item} className="flex items-start gap-2 text-sm text-[#F0F4FF]/70">
+                <div
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-[#F0F4FF]/70"
+                >
                   <span className="text-[#00D4FF] mt-0.5 shrink-0">—</span>
                   {item}
                 </div>
@@ -473,7 +688,9 @@ function PrototypeSection() {
           <div className="aurora-card rounded-sm p-6 border-[#F0F4FF]/10">
             <div className="flex items-center gap-2 mb-4">
               <AlertTriangle size={18} className="text-amber-400" />
-              <h3 className="display-font text-xl font-bold text-white">What it does not prove yet</h3>
+              <h3 className="display-font text-xl font-bold text-white">
+                What it does not prove yet
+              </h3>
             </div>
             <p className="text-sm text-[#F0F4FF]/60 mb-4">
               We are being fully transparent. The current prototype is not yet:
@@ -486,14 +703,18 @@ function PrototypeSection() {
                 "A passenger-capable vehicle",
                 "A manned flight prototype",
               ].map((item) => (
-                <div key={item} className="flex items-start gap-2 text-sm text-[#F0F4FF]/50">
+                <div
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-[#F0F4FF]/50"
+                >
                   <span className="text-amber-400/60 mt-0.5 shrink-0">—</span>
                   {item}
                 </div>
               ))}
             </div>
             <p className="text-xs text-[#F0F4FF]/40 mt-4 italic">
-              Those are future stages. This campaign funds the transition from software prototype to physical autonomous prototype.
+              Those are future stages. This campaign funds the transition from software prototype
+              to physical autonomous prototype.
             </p>
           </div>
         </div>
@@ -509,12 +730,16 @@ function MovementSection() {
         <div className="aurora-section-divider mb-16" />
 
         <div className="text-center mb-16">
-          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">What Makes Aurora Different</div>
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+            What Makes Aurora Different
+          </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
             A Different Class of Motion
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-2xl mx-auto">
-            Aurora is not being designed as a conventional VTOL. It explores a ring-based architecture intended to study more decoupled motion, stronger lateral maneuvering, and unique redirect, braking, and repel behaviors.
+            Aurora is not being designed as a conventional VTOL. It explores a ring-based
+            architecture intended to study more decoupled motion, stronger lateral maneuvering,
+            and unique redirect, braking, and repel behaviors.
           </p>
         </div>
 
@@ -551,7 +776,10 @@ function MovementSection() {
               icon: "⚙",
             },
           ].map((item) => (
-            <div key={item.title} className="aurora-card rounded-sm p-6 hover:border-[#00D4FF]/30 transition-colors group">
+            <div
+              key={item.title}
+              className="aurora-card rounded-sm p-6 hover:border-[#00D4FF]/30 transition-colors group"
+            >
               <div className="text-3xl mb-4 text-[#00D4FF]">{item.icon}</div>
               <h3 className="display-font text-xl font-bold text-white mb-2 group-hover:text-[#00D4FF] transition-colors">
                 {item.title}
@@ -563,7 +791,9 @@ function MovementSection() {
 
         <div className="mt-12 aurora-card rounded-sm p-6 border-[#00D4FF]/20">
           <p className="text-[#F0F4FF]/70 text-sm leading-relaxed italic text-center max-w-3xl mx-auto">
-            "We are not claiming those behaviors are fully proven in flight hardware yet. What we are saying is that the software platform already exists to study, validate, and de-risk them before committing to expensive prototype iterations."
+            "We are not claiming those behaviors are fully proven in flight hardware yet. What we
+            are saying is that the software platform already exists to study, validate, and
+            de-risk them before committing to expensive prototype iterations."
           </p>
         </div>
       </div>
@@ -579,12 +809,17 @@ function WhatFundingUnlocks() {
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">What Funding Unlocks</div>
+            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+              What Funding Unlocks
+            </div>
             <h2 className="display-font text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
               From Software Research to Physical Engineering
             </h2>
             <p className="text-[#F0F4FF]/70 leading-relaxed mb-8">
-              Your support will fund the transition from software research into physical engineering. The funded objective is an autonomous prototype stage — not a passenger aircraft, not manned testing, but a disciplined engineering program that de-risks the physical implementation.
+              Your support will fund the transition from software research into physical
+              engineering. The funded objective is an autonomous prototype stage — not a passenger
+              aircraft, not manned testing, but a disciplined engineering program that de-risks
+              the physical implementation.
             </p>
 
             <div className="space-y-4">
@@ -653,12 +888,15 @@ function RoadmapSection() {
         <div className="aurora-section-divider mb-16" />
 
         <div className="text-center mb-16">
-          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">Development Roadmap</div>
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+            Development Roadmap
+          </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
             Four Phases to Autonomous Prototype
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-xl mx-auto">
-            The campaign funds Phases 1 and 2 at the base goal. Phases 3 and 4 unlock with stretch funding.
+            The campaign funds Phases 1 and 2 at the base goal. Phases 3 and 4 unlock with
+            stretch funding.
           </p>
         </div>
 
@@ -666,7 +904,7 @@ function RoadmapSection() {
           {ROADMAP_PHASES.map((phase, i) => (
             <div
               key={phase.phase}
-              className={`aurora-card rounded-sm p-6 relative ${
+              className={`aurora-card rounded-sm p-6 relative flex flex-col ${
                 phase.status === "funded"
                   ? "border-[#00D4FF]/30"
                   : "border-[#F0F4FF]/10"
@@ -677,15 +915,22 @@ function RoadmapSection() {
                   phase.status === "funded" ? "text-[#00D4FF]" : "text-[#F0F4FF]/40"
                 }`}
               >
-                {phase.phase} {phase.status === "funded" ? "· BASE GOAL" : "· STRETCH"}
+                {phase.phase} · {phase.status === "funded" ? "BASE GOAL" : "STRETCH"}
               </div>
-              <h3 className="display-font text-xl font-bold text-white mb-4">{phase.title}</h3>
-              <div className="space-y-2">
+              <h3 className="display-font text-xl font-bold text-white mb-4">
+                {phase.title}
+              </h3>
+              <div className="space-y-2 flex-1">
                 {phase.items.map((item) => (
-                  <div key={item} className="flex items-start gap-2 text-xs text-[#F0F4FF]/60">
+                  <div
+                    key={item}
+                    className="flex items-start gap-2 text-xs text-[#F0F4FF]/60"
+                  >
                     <span
                       className={`mt-0.5 shrink-0 ${
-                        phase.status === "funded" ? "text-[#00D4FF]" : "text-[#F0F4FF]/30"
+                        phase.status === "funded"
+                          ? "text-[#00D4FF]"
+                          : "text-[#F0F4FF]/30"
                       }`}
                     >
                       —
@@ -693,6 +938,16 @@ function RoadmapSection() {
                     {item}
                   </div>
                 ))}
+              </div>
+              {/* Deliverable output */}
+              <div
+                className={`mt-4 pt-4 border-t text-xs mono leading-relaxed ${
+                  phase.status === "funded"
+                    ? "border-[#00D4FF]/20 text-[#00D4FF]/70"
+                    : "border-[#F0F4FF]/10 text-[#F0F4FF]/30"
+                }`}
+              >
+                {phase.output}
               </div>
 
               {/* Phase connector line */}
@@ -716,12 +971,16 @@ function BudgetSection() {
         <div className="aurora-section-divider mb-16" />
 
         <div className="text-center mb-16">
-          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">Budget Breakdown</div>
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+            Budget Breakdown
+          </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
             Where the Funding Goes
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-xl mx-auto">
-            Every dollar is allocated to engineering deliverables. No salaries, no marketing spend — just the physical engineering program.
+            Funds are allocated primarily to engineering deliverables, prototype development,
+            testing, and project execution — with documentation and communication included as
+            first-class project costs.
           </p>
         </div>
 
@@ -758,12 +1017,15 @@ function RewardsSection() {
         <div className="aurora-section-divider mb-16" />
 
         <div className="text-center mb-16">
-          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">Reward Tiers</div>
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+            Reward Tiers
+          </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
             Back the Project
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-xl mx-auto">
-            Choose your level of involvement. All tiers receive transparent engineering updates as the project advances.
+            Choose your level of involvement. All tiers receive transparent engineering updates
+            as the project advances.
           </p>
         </div>
 
@@ -797,7 +1059,10 @@ function RewardsSection() {
 
               <div className="space-y-2 mb-6">
                 {tier.perks.map((perk) => (
-                  <div key={perk} className="flex items-start gap-2 text-xs text-[#F0F4FF]/70">
+                  <div
+                    key={perk}
+                    className="flex items-start gap-2 text-xs text-[#F0F4FF]/70"
+                  >
                     <CheckCircle size={12} className="text-[#00D4FF] shrink-0 mt-0.5" />
                     {perk}
                   </div>
@@ -811,7 +1076,8 @@ function RewardsSection() {
                     : "border border-[#00D4FF]/30 text-[#00D4FF] hover:bg-[#00D4FF]/10"
                 }`}
               >
-                Select — ${tier.amount.toLocaleString()}{tier.amount >= 1000 ? "+" : ""}
+                Select — ${tier.amount.toLocaleString()}
+                {tier.amount >= 1000 ? "+" : ""}
               </button>
             </div>
           ))}
@@ -829,7 +1095,9 @@ function RisksSection() {
 
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">Risks & Transparency</div>
+            <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
+              Risks & Transparency
+            </div>
             <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
               We Are Not Hiding the Risks
             </h2>
@@ -842,19 +1110,23 @@ function RisksSection() {
             {[
               {
                 risk: "Mechanical packaging complexity",
-                mitigation: "The software-first approach means we understand the control requirements before committing to packaging decisions. CAD work will be iterative and documented.",
+                mitigation:
+                  "The software-first approach means we understand the control requirements before committing to packaging decisions. CAD work will be iterative and documented.",
               },
               {
                 risk: "Actuator and propulsion integration",
-                mitigation: "Subsystem definition work in Phase 2 will identify integration risks early, before hardware procurement begins.",
+                mitigation:
+                  "Subsystem definition work in Phase 2 will identify integration risks early, before hardware procurement begins.",
               },
               {
                 risk: "Longer-than-expected validation cycles",
-                mitigation: "Timelines are estimates. We will communicate honestly if they shift, and backers will receive transparent updates at every milestone.",
+                mitigation:
+                  "Timelines are estimates. We will communicate honestly if they shift, and backers will receive transparent updates at every milestone.",
               },
               {
                 risk: "Scope changes based on engineering findings",
-                mitigation: "Engineering reality may require adjustments to the plan. We will document and explain any changes as they arise.",
+                mitigation:
+                  "Engineering reality may require adjustments to the plan. We will document and explain any changes as they arise.",
               },
             ].map((item) => (
               <div key={item.risk} className="aurora-card rounded-sm p-5">
@@ -862,7 +1134,9 @@ function RisksSection() {
                   <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
                   <div>
                     <div className="font-semibold text-[#F0F4FF] mb-1">{item.risk}</div>
-                    <div className="text-sm text-[#F0F4FF]/60 leading-relaxed">{item.mitigation}</div>
+                    <div className="text-sm text-[#F0F4FF]/60 leading-relaxed">
+                      {item.mitigation}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -871,7 +1145,10 @@ function RisksSection() {
 
           <div className="mt-8 aurora-card rounded-sm p-6 border-[#00D4FF]/20">
             <p className="text-[#F0F4FF]/70 text-sm leading-relaxed">
-              That is exactly why Aurora started with software engineering first. We chose this path to reduce uncertainty before expensive hardware commitments. Backers will get transparent milestone reporting, honest explanations of tradeoffs, and clear updates if timelines shift.
+              That is exactly why Aurora started with software engineering first. We chose this
+              path to reduce uncertainty before expensive hardware commitments. Backers will get
+              transparent milestone reporting, honest explanations of tradeoffs, and clear updates
+              if timelines shift.
             </p>
           </div>
         </div>
@@ -881,7 +1158,7 @@ function RisksSection() {
 }
 
 function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <section id="faq" className="py-24">
@@ -909,7 +1186,9 @@ function FAQSection() {
                   </div>
                   <ChevronDown
                     size={16}
-                    className={`text-[#00D4FF] shrink-0 ml-4 transition-transform ${openIndex === i ? "rotate-180" : ""}`}
+                    className={`text-[#00D4FF] shrink-0 ml-4 transition-transform ${
+                      openIndex === i ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
                 {openIndex === i && (
@@ -938,7 +1217,9 @@ function ClosingCTA() {
         <div className="aurora-section-divider mb-16" />
 
         <div className="max-w-3xl mx-auto">
-          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-6 uppercase">Join the Mission</div>
+          <div className="mono text-[#00D4FF] text-xs tracking-widest mb-6 uppercase">
+            Join the Mission
+          </div>
           <h2 className="display-font text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-none mb-6">
             Project Aurora is not asking you to fund a fantasy.
           </h2>
@@ -946,7 +1227,9 @@ function ClosingCTA() {
             It is asking you to back the next disciplined step in an engineering program.
           </p>
           <p className="text-[#F0F4FF]/50 leading-relaxed mb-12">
-            From software-proven control and validation, to real mechanical design, to subsystem implementation, to autonomous prototype testing. We have built the software-first foundation. Now we want to build the physical path forward.
+            From software-proven control and validation, to real mechanical design, to subsystem
+            implementation, to autonomous prototype testing. We have built the software-first
+            foundation. Now we want to build the physical path forward.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -969,7 +1252,9 @@ function ClosingCTA() {
           </div>
 
           <div className="aurora-card rounded-sm p-6 max-w-lg mx-auto">
-            <div className="mono text-[#00D4FF] text-xs tracking-wide mb-3 uppercase">Current Status</div>
+            <div className="mono text-[#00D4FF] text-xs tracking-wide mb-3 uppercase">
+              Current Status
+            </div>
             <div className="mono text-xs text-[#F0F4FF]/50 space-y-1">
               <div className="flex justify-between">
                 <span>Control stack</span>
@@ -1034,6 +1319,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#050D1A] text-[#F0F4FF]">
       <Nav />
       <HeroSection />
+      <PrototypeVideoSection />
       <CampaignStats />
       <StorySection />
       <PrototypeSection />
