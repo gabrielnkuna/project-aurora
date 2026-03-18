@@ -1,16 +1,16 @@
 /* ============================================================
-   AURORA VTOL KICKSTARTER — HOME PAGE
+   AURORA VTOL — INDIEGOGO CAMPAIGN PAGE
    Design: Deep Space Mission Control
-   Feedback applied (v2):
-   - Fixed inconsistent funding stats (placeholder values now coherent)
-   - Improved hero subheadline copy
-   - Added prototype proof video placeholder above the fold
-   - Added topology clarification line under "16 Fans. 32 Vanes."
-   - Added "What you see today" sentence in Working Prototype
-   - Expanded all FAQ answers (now visible by default on first item)
-   - Added per-phase output deliverables to roadmap
-   - Softened "no salaries" budget language
-   - Improved hero description copy
+   v3 — Indiegogo Flexible Funding:
+   - Platform: Indiegogo (Flexible Funding)
+   - "Rewards" → "Perks"
+   - "Back This Project" → "Contribute Now"
+   - "Backers" kept (same on Indiegogo)
+   - Added Flexible Funding explanation banner in perks section
+   - Added Flexible Funding note under progress bar
+   - Updated funding model language throughout
+   - CTA buttons updated to Indiegogo framing
+   - Nav "Rewards" → "Perks", section id="perks"
    ============================================================ */
 
 import { useEffect, useRef, useState } from "react";
@@ -49,7 +49,7 @@ const BUDGET_ITEMS = [
   { label: "Documentation, Communication & Project Execution", pct: 10, color: "#002030" },
 ];
 
-const REWARD_TIERS = [
+const PERK_TIERS = [
   {
     amount: 10,
     title: "Supporter",
@@ -58,7 +58,7 @@ const REWARD_TIERS = [
     perks: [
       "Campaign update emails",
       "Digital supporter badge",
-      "Access to backer-only announcements",
+      "Access to contributor-only announcements",
     ],
     highlight: false,
   },
@@ -66,10 +66,10 @@ const REWARD_TIERS = [
     amount: 25,
     title: "Aurora Insider",
     description:
-      "Receive detailed development updates and backer-only technical progress posts as the project advances.",
+      "Receive detailed development updates and contributor-only technical progress posts as the project advances.",
     perks: [
       "All Supporter perks",
-      "Backer-only progress updates",
+      "Contributor-only progress updates",
       "Milestone summaries",
     ],
     highlight: false,
@@ -81,7 +81,7 @@ const REWARD_TIERS = [
       "Get behind-the-scenes access to CAD progress, subsystem decisions, and test milestones.",
     perks: [
       "All Aurora Insider perks",
-      "Backer-only technical notes",
+      "Contributor-only technical notes",
       "Selected CAD & test snapshots",
     ],
     highlight: false,
@@ -112,7 +112,7 @@ const REWARD_TIERS = [
   },
   {
     amount: 500,
-    title: "Founding Backer",
+    title: "Founding Contributor",
     description:
       "Named recognition in the prototype documentation pack and milestone update series.",
     perks: [
@@ -128,7 +128,7 @@ const REWARD_TIERS = [
     description:
       "Recognition as a founding sponsor in milestone updates, project acknowledgments, and all major project materials.",
     perks: [
-      "All Founding Backer perks",
+      "All Founding Contributor perks",
       "Founding sponsor recognition",
       "Named in all major project materials",
       "Direct project acknowledgment",
@@ -212,8 +212,12 @@ const FAQ_ITEMS = [
     a: "No. The funded outcome is an autonomous prototype path, not a passenger-ready aircraft. Those are future stages that depend on the success of this foundational engineering work. The campaign is explicit about this scope throughout.",
   },
   {
-    q: "What will backers actually see if the campaign succeeds?",
-    a: "Visible deliverables include CAD progress updates, subsystem definition documents, BOM milestones, bench and rig testing reports, and autonomous prototype integration updates — all shared transparently with backers at each phase milestone. Phase 1 delivers a packaging CAD and subsystem layout pack. Phase 2 delivers a BOM and prototype architecture document. Stretch phases deliver rig validation reports and autonomous demonstrator footage.",
+    q: "What will contributors actually see if the campaign succeeds?",
+    a: "Visible deliverables include CAD progress updates, subsystem definition documents, BOM milestones, bench and rig testing reports, and autonomous prototype integration updates — all shared transparently with contributors at each phase milestone. Phase 1 delivers a packaging CAD and subsystem layout pack. Phase 2 delivers a BOM and prototype architecture document. Stretch phases deliver rig validation reports and autonomous demonstrator footage.",
+  },
+  {
+    q: "Why Indiegogo Flexible Funding?",
+    a: "Flexible Funding means every contribution goes directly toward the project regardless of whether the $85,000 primary goal is reached. Phases 1 and 2 are fully funded at $85,000. Any contributions received before that threshold still accelerate early work. Every dollar raised beyond $85,000 pushes Phases 3 and 4 closer to execution.",
   },
 ];
 
@@ -285,7 +289,7 @@ function Nav() {
           <a href="#story" className="hover:text-[#00D4FF] transition-colors">Story</a>
           <a href="#prototype" className="hover:text-[#00D4FF] transition-colors">Prototype</a>
           <a href="#roadmap" className="hover:text-[#00D4FF] transition-colors">Roadmap</a>
-          <a href="#rewards" className="hover:text-[#00D4FF] transition-colors">Rewards</a>
+          <a href="#perks" className="hover:text-[#00D4FF] transition-colors">Perks</a>
           <a href="#faq" className="hover:text-[#00D4FF] transition-colors">FAQ</a>
         </div>
         <a
@@ -355,10 +359,10 @@ function HeroSection() {
           style={{ animationDelay: "0.4s" }}
         >
           <a
-            href="#rewards"
+            href="#perks"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#00D4FF] text-[#050D1A] font-semibold rounded-sm hover:bg-[#00D4FF]/90 transition-all aurora-glow text-sm tracking-wide uppercase"
           >
-            Back This Project
+            Contribute Now
             <ArrowRight size={16} />
           </a>
           <a
@@ -378,7 +382,7 @@ function HeroSection() {
   );
 }
 
-/** Prominent video placeholder — replace src/poster with real demo when ready */
+/** Prominent video placeholder — replace with real demo when ready */
 function PrototypeVideoSection() {
   const [playing, setPlaying] = useState(false);
 
@@ -454,7 +458,7 @@ function CampaignStats() {
             },
             {
               value: BACKERS > 0 ? backers.toLocaleString() : "0",
-              label: "Backers",
+              label: "Contributors",
             },
             {
               value: DAYS_LEFT.toString(),
@@ -490,12 +494,18 @@ function CampaignStats() {
           </div>
         </div>
 
-        <div className="mt-6 text-center">
+        {/* Flexible Funding note */}
+        <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[#F0F4FF]/40 mono">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF]/60" />
+          Indiegogo Flexible Funding — every contribution counts, regardless of goal
+        </div>
+
+        <div className="mt-5 text-center">
           <a
-            href="#rewards"
+            href="#perks"
             className="inline-flex items-center gap-2 px-8 py-3 bg-[#00D4FF] text-[#050D1A] font-semibold rounded-sm hover:bg-[#00D4FF]/90 transition-all aurora-glow text-sm tracking-wide uppercase"
           >
-            Back This Project
+            Contribute Now
             <ArrowRight size={14} />
           </a>
         </div>
@@ -810,14 +820,14 @@ function WhatFundingUnlocks() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
-              What Funding Unlocks
+              What Contributions Unlock
             </div>
             <h2 className="display-font text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
               From Software Research to Physical Engineering
             </h2>
             <p className="text-[#F0F4FF]/70 leading-relaxed mb-8">
-              Your support will fund the transition from software research into physical
-              engineering. The funded objective is an autonomous prototype stage — not a passenger
+              Your contribution will fund the transition from software research into physical
+              engineering. The primary goal is an autonomous prototype stage — not a passenger
               aircraft, not manned testing, but a disciplined engineering program that de-risks
               the physical implementation.
             </p>
@@ -889,14 +899,14 @@ function RoadmapSection() {
 
         <div className="text-center mb-16">
           <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
-            Development Roadmap
+            Campaign Roadmap
           </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
             Four Phases to Autonomous Prototype
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-xl mx-auto">
-            The campaign funds Phases 1 and 2 at the base goal. Phases 3 and 4 unlock with
-            stretch funding.
+            Flexible Funding means every contribution counts. Phases 1 and 2 are the primary
+            goal at $85,000. Phases 3 and 4 unlock as contributions grow beyond that.
           </p>
         </div>
 
@@ -915,7 +925,7 @@ function RoadmapSection() {
                   phase.status === "funded" ? "text-[#00D4FF]" : "text-[#F0F4FF]/40"
                 }`}
               >
-                {phase.phase} · {phase.status === "funded" ? "BASE GOAL" : "STRETCH"}
+                {phase.phase} · {phase.status === "funded" ? "PRIMARY GOAL" : "STRETCH"}
               </div>
               <h3 className="display-font text-xl font-bold text-white mb-4">
                 {phase.title}
@@ -975,12 +985,13 @@ function BudgetSection() {
             Budget Breakdown
           </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
-            Where the Funding Goes
+            Where the Contributions Go
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-xl mx-auto">
-            Funds are allocated primarily to engineering deliverables, prototype development,
+            All contributions go directly toward engineering deliverables, prototype development,
             testing, and project execution — with documentation and communication included as
-            first-class project costs.
+            first-class project costs. Flexible Funding means contributions are put to work
+            immediately as they arrive.
           </p>
         </div>
 
@@ -1010,27 +1021,40 @@ function BudgetSection() {
   );
 }
 
-function RewardsSection() {
+function PerksSection() {
   return (
-    <section id="rewards" className="py-24">
+    <section id="perks" className="py-24">
       <div className="container">
         <div className="aurora-section-divider mb-16" />
 
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="mono text-[#00D4FF] text-xs tracking-widest mb-4 uppercase">
-            Reward Tiers
+            Perks
           </div>
           <h2 className="display-font text-4xl sm:text-5xl font-bold text-white mb-4">
-            Back the Project
+            Contribute to Project Aurora
           </h2>
           <p className="text-[#F0F4FF]/60 max-w-xl mx-auto">
-            Choose your level of involvement. All tiers receive transparent engineering updates
-            as the project advances.
+            Choose your level of involvement. All contributors receive transparent engineering
+            updates as the project advances.
           </p>
+
+          {/* Flexible Funding explanation */}
+          <div className="mt-6 inline-flex items-start gap-3 aurora-card rounded-sm px-5 py-3 max-w-xl text-left">
+            <span className="text-[#00D4FF] text-lg mt-0.5">ⓘ</span>
+            <div>
+              <div className="mono text-[#00D4FF] text-xs tracking-wide mb-1">FLEXIBLE FUNDING</div>
+              <p className="text-xs text-[#F0F4FF]/60 leading-relaxed">
+                This campaign uses Indiegogo Flexible Funding — every contribution goes directly
+                toward the project regardless of whether the goal is reached. Phases 1 &amp; 2 are
+                funded at $85,000. Every dollar raised beyond that accelerates Phases 3 and 4.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {REWARD_TIERS.map((tier) => (
+          {PERK_TIERS.map((tier) => (
             <div
               key={tier.amount}
               className={`aurora-card rounded-sm p-6 flex flex-col relative ${
@@ -1076,7 +1100,7 @@ function RewardsSection() {
                     : "border border-[#00D4FF]/30 text-[#00D4FF] hover:bg-[#00D4FF]/10"
                 }`}
               >
-                Select — ${tier.amount.toLocaleString()}
+                Claim Perk — ${tier.amount.toLocaleString()}
                 {tier.amount >= 1000 ? "+" : ""}
               </button>
             </div>
@@ -1121,7 +1145,7 @@ function RisksSection() {
               {
                 risk: "Longer-than-expected validation cycles",
                 mitigation:
-                  "Timelines are estimates. We will communicate honestly if they shift, and backers will receive transparent updates at every milestone.",
+                  "Timelines are estimates. We will communicate honestly if they shift, and contributors will receive transparent updates at every milestone.",
               },
               {
                 risk: "Scope changes based on engineering findings",
@@ -1146,9 +1170,9 @@ function RisksSection() {
           <div className="mt-8 aurora-card rounded-sm p-6 border-[#00D4FF]/20">
             <p className="text-[#F0F4FF]/70 text-sm leading-relaxed">
               That is exactly why Aurora started with software engineering first. We chose this
-              path to reduce uncertainty before expensive hardware commitments. Backers will get
-              transparent milestone reporting, honest explanations of tradeoffs, and clear updates
-              if timelines shift.
+              path to reduce uncertainty before expensive hardware commitments. Contributors will
+              get transparent milestone reporting, honest explanations of tradeoffs, and clear
+              updates if timelines shift.
             </p>
           </div>
         </div>
@@ -1234,10 +1258,10 @@ function ClosingCTA() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <a
-              href="#rewards"
+              href="#perks"
               className="inline-flex items-center gap-2 px-10 py-4 bg-[#00D4FF] text-[#050D1A] font-bold rounded-sm hover:bg-[#00D4FF]/90 transition-all aurora-glow text-sm tracking-widest uppercase"
             >
-              Back Project Aurora
+              Contribute to Aurora
               <ArrowRight size={16} />
             </a>
             <a
@@ -1253,7 +1277,7 @@ function ClosingCTA() {
 
           <div className="aurora-card rounded-sm p-6 max-w-lg mx-auto">
             <div className="mono text-[#00D4FF] text-xs tracking-wide mb-3 uppercase">
-              Current Status
+              Current Status — Indiegogo Campaign
             </div>
             <div className="mono text-xs text-[#F0F4FF]/50 space-y-1">
               <div className="flex justify-between">
@@ -1297,7 +1321,7 @@ function Footer() {
           </span>
         </div>
         <div className="text-xs text-[#F0F4FF]/30 mono text-center">
-          Software Engineering First · Autonomous Prototype Stage · No Manned Testing
+          Indiegogo Flexible Funding · Software Engineering First · Autonomous Prototype Stage
         </div>
         <a
           href="https://github.com/gabrielnkuna/aurora-vtol"
@@ -1327,7 +1351,7 @@ export default function Home() {
       <WhatFundingUnlocks />
       <RoadmapSection />
       <BudgetSection />
-      <RewardsSection />
+      <PerksSection />
       <RisksSection />
       <FAQSection />
       <ClosingCTA />
