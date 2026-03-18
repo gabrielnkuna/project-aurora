@@ -28,7 +28,7 @@ steps:
       - 'deploy'
       - 'aurora-campaign'          # Cloud Run service name
       - '--image=gcr.io/$PROJECT_ID/aurora-campaign:$COMMIT_SHA'
-      - '--region=europe-west2'     # London, UK
+      - '--region=europe-west1'     # Belgium, EU
       - '--platform=managed'
       - '--allow-unauthenticated'  # Public campaign page — no auth required
       - '--port=8080'
