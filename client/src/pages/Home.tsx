@@ -593,6 +593,54 @@ function IndustrialDevelopmentSection() {
   );
 }
 
+function TeamSection() {
+  const teamMembers = [
+    {
+      name: "Gabriel Nkuna",
+      role: "Project Lead & Control-Stack Owner",
+      bio: "Gabriel leads Project Aurora and owns the software-first control and validation stack. His work on maneuver logic, allocator studies, and ArduPilot integration forms the foundation of Aurora's development approach.",
+      initials: "GN",
+    },
+    {
+      name: "Dr Gert Erasmus",
+      role: "Senior Aerospace Systems Engineering & Implementation Oversight",
+      bio: "Dr Erasmus brings practical aerospace systems engineering expertise and implementation oversight. His role is to translate Aurora's software foundation into real mechanical design, subsystem architecture, and prototype integration.",
+      initials: "GE",
+    },
+  ];
+
+  return (
+    <section className="py-20 bg-[#050D1A] border-t border-[#00D4FF]/20">
+      <div className="container max-w-3xl">
+        <div className="mb-2 inline-block">
+          <span className="text-xs font-mono tracking-widest uppercase text-[#00D4FF]">Project Team</span>
+        </div>
+        <h2 className="display-font text-4xl font-bold text-white mb-12">The Team Behind Aurora</h2>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {teamMembers.map((member) => (
+            <div
+              key={member.name}
+              className="bg-[#0A1628] border border-[#00D4FF]/20 rounded-lg p-8 hover:border-[#00D4FF]/40 transition-all"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#00D4FF] to-[#00A8CC] flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl font-bold text-[#050D1A]">{member.initials}</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white">{member.name}</h3>
+                  <p className="text-sm text-[#00D4FF] font-semibold">{member.role}</p>
+                </div>
+              </div>
+              <p className="text-[#F0F4FF]/80 text-sm leading-relaxed">{member.bio}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ContributionsUnlockSection() {
   return (
     <section className="py-20 bg-[#050D1A] border-t border-[#00D4FF]/20">
@@ -1019,6 +1067,7 @@ export default function Home() {
       <ImplementationPathSection />
       <MotionSection />
       <IndustrialDevelopmentSection />
+      <TeamSection />
       <ContributionsUnlockSection />
       <RoadmapSection />
       <BudgetSection />
